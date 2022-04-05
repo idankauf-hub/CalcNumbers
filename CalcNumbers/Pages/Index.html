@@ -1,0 +1,71 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script src="../Scripts/ajaxCall.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script>
+
+        $(document).ready(function () {
+            $('#myForm').on("submit", function (e) {
+                let num1 = $("#num1").val();
+                let num2 = $("#num2").val();
+                let operand = $("#test1 :selected").val();
+                console.log(operand)
+                e.preventDefault(); // cancel the actual submit
+                calculate(num1, num2, operand);
+            });
+
+        });
+
+         function calculate(num1,num2,operand) {
+             let apiUrl = `../api/Calc/?num1=${num1}&num2=${num2}&operand=${operand}`;
+
+            ajaxCall("GET", apiUrl, "", getResSuccessCB, getResErrorCB);
+
+        }
+        function getResSuccessCB(result) {
+            console.log(result)
+            $("#res").val(result)
+        }
+        function getResErrorCB(e) {
+            console.log(e)
+        }
+
+        function processForm(e) {
+            if (e.preventDefault) e.preventDefault();
+
+            /* do what you want with the form */
+
+            // You must return false to prevent the default form behavior
+            return false;
+        }
+
+    </script>
+</head>
+<body>
+    <div>
+        <form id="myForm">
+            <input type="text" id="num1" name="fname">
+
+            <label>Choose an operand:</label>
+            <select id="test1">
+                <option value="%2B">+</option>
+                <option value="-">-</option>
+                <option value="%2A">*</option>
+                <option value="%2F">/</option>
+            </select>
+            <input type="text" id="num2" name="fname">
+            <label>=</label>
+
+            <input type="text" id="res">
+
+            <input type="submit" value="Submit">
+        </form>
+
+
+
+    </div>
+</body>
+</html>
